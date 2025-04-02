@@ -21,7 +21,7 @@ public class MyArrayList <T> implements MyList<T> {
     }
 
     private void checkIndex(int index) {
-        if (index < 0 || index >= getSize()) {
+        if (index < 0 || index >= size()) {
             throw new IndexOutOfBoundsException("Index does not exist");
         }
     }
@@ -31,7 +31,7 @@ public class MyArrayList <T> implements MyList<T> {
     }
 
     @Override
-    public void add(Object element) {
+    public void add(T element) {
         if (size == getLength()) {
             increaseCapacity();
         }
@@ -49,15 +49,10 @@ public class MyArrayList <T> implements MyList<T> {
     }
 
     @Override
-    public int getSize() {
+    public int size() {
         return size;
     }
 
-    @Override
-    public Object getByIndex(int index) {
-        checkIndex(index);
-        return elements[index];
-    }
 
     @Override
     public void clear() {
@@ -71,9 +66,10 @@ public class MyArrayList <T> implements MyList<T> {
         return size == 0;
     }
 
-    public Object get(int index) {
+    @Override
+    public T get(int index) {
         checkIndex(index);
-        return elements[index];
+        return (T)elements[index];
     }
 
     public boolean contains(Object o) {

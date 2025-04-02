@@ -1,27 +1,33 @@
 import lists.MyArrayList;
+import lists.MyLinkedList;
+import lists.interfaces.MyList;
 
 public class Main {
     public static void main(String[] args) {
-        MyArrayList<Integer> myList = new MyArrayList<>();
+        MyArrayList<Integer> list = new MyArrayList<>();
+        MyLinkedList<Integer> list2 = new MyLinkedList<>();
 
-        myList.add(1);
-        myList.add(2);
-        myList.add(3);
+        list.add(1);
+        list.add(2);
+        list.add(3);
 
-        print(myList);
+        print(list);
 
 
         System.out.println("----------------------------------");
 
-        myList.remove(1);
+        list2.add(1);
+        list2.add(2);
+        list2.add(3);
 
-        print(myList);
+        print(list2);
+        System.out.println(list2.isEmpty());
 
     }
 
-    public static void print(MyArrayList<Integer> myList) {
-        for(int i = 0;i < myList.getSize();i++){
-            System.out.print(myList.get(i) + " ");
+    public static <T> void print(MyList<T> list) {
+        for(int i = 0;i < list.size();i++){
+            System.out.print(list.get(i) + " ");
         }
         System.out.println();
     }
