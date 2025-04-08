@@ -12,6 +12,7 @@ public interface MyList<T> {
     void sort();
     int indexOf(Object object);
     int lastIndexOf(Object object);
+    boolean exists(Object object);
     public Object[] toArray();
     int size();
     T get(int index);

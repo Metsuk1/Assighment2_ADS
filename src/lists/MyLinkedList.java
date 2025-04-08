@@ -8,10 +8,12 @@ import java.util.NoSuchElementException;
 
 public class MyLinkedList <T> implements MyList<T> {
     private MyNode<T> head;
+    private MyNode<T> tail;
     private int size;
 
     public MyLinkedList() {
         head = null;
+        tail = null;
         size = 0;
     }
 
@@ -23,10 +25,6 @@ public class MyLinkedList <T> implements MyList<T> {
         if (index < 0 || index >= size()) {
             throw new IndexOutOfBoundsException();
         }
-    }
-
-    private T hasNext(T element) {
-        return element;
     }
 
     private void checkCurrent(T element) {
@@ -61,6 +59,26 @@ public class MyLinkedList <T> implements MyList<T> {
     }
 
     @Override
+    public void add(int index, T element) {
+
+    }
+
+    @Override
+    public void set(int index, T element) {
+
+    }
+
+    @Override
+    public void addFirst(T element) {
+
+    }
+
+    @Override
+    public void addLast(T element) {
+
+    }
+
+    @Override
     public void remove(int index) {
         checkIndex(index);
 
@@ -86,17 +104,42 @@ public class MyLinkedList <T> implements MyList<T> {
     @Override
     public void removeLast() {
         checkEmpty();
-
-        if(head.getNext() == null){
-            head = null;
-        }else{
-        MyNode<T> current = head;
-        while(current.getNext() != null) {
-            current = current.getNext();
-            }
-        current.setNext(null);
-        }
+        tail = tail.getPrevious();
         size--;
+    }
+
+    @Override
+    public void sort() {
+
+    }
+
+    @Override
+    public int indexOf(Object object) {
+        return 0;
+    }
+
+    @Override
+    public int lastIndexOf(Object object) {
+        return 0;
+    }
+
+    @Override
+    public boolean exists(Object object) {
+        return contains((T) object);
+    }
+
+    @Override
+    public Object[] toArray() {
+        int index = 0;
+        MyNode<T> current = head;
+        Object[] array = new Object[size];
+
+        while(current.hasNext()) {
+            array[index++] = current.getNode();
+            current = current.getNext();
+        }
+
+        return array;
     }
 
 
@@ -131,19 +174,13 @@ public class MyLinkedList <T> implements MyList<T> {
 
     @Override
     public T getLast() {
-        if(head == null) {return null;}
-
-        MyNode<T> current = head;
-        while(current.getNext() != null) {
-            current = current.getNext();
-        }
-
-        return current.getNode();
+       return tail.getPrevious().getNode();
     }
 
     @Override
     public void clear() {
         head = null;
+        tail = null;
         size = 0;
     }
 
@@ -155,7 +192,7 @@ public class MyLinkedList <T> implements MyList<T> {
     public boolean contains(T element) {
         MyNode<T> current = head;
 
-        while(current != hasNext(element)) {
+        while(current.hasNext()) {
             if(current.getNode().equals(element)) {
 
                 return true;
