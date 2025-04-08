@@ -20,6 +20,14 @@ public class MyArrayList <T> implements MyList<T> {
         elements = tempElements;
     }
 
+    private void shift(int index) {
+        checkIndex(index);
+        for (int i = index; i < getLength() - 1; i++) {
+            elements[i] = elements[i + 1];
+        }
+        size--;
+    }
+
     private void checkIndex(int index) {
         if (index < 0 || index >= size()) {
             throw new IndexOutOfBoundsException("Index does not exist");
@@ -41,11 +49,7 @@ public class MyArrayList <T> implements MyList<T> {
     @Override
     public void remove(int index) {
         checkIndex(index);
-
-        for (int i = index; i < getLength() - 1; i++) {
-            elements[i] = elements[i + 1];
-        }
-        size--;
+        shift(index);
     }
 
     @Override
@@ -58,7 +62,6 @@ public class MyArrayList <T> implements MyList<T> {
     public void clear() {
         elements = new Object[10];
         this.size = 0;
-
     }
 
     @Override
@@ -72,16 +75,16 @@ public class MyArrayList <T> implements MyList<T> {
         return (T)elements[index];
     }
 
-    public boolean contains(Object o) {
-        if (size == 0) {
+    public boolean contains(T element) {
+        if (isEmpty()) {
+            return false;
+        } else {
+            for (int i = 0; i < getLength(); i++) {
+                if (elements[i].equals(element)) {
+                    return true;
+                }
+            }
             return false;
         }
-        for (int i = 0; i < getLength(); i++) {
-            if (elements[i].equals(o)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

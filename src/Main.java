@@ -21,7 +21,9 @@ public class Main {
         list2.add(3);
 
         print(list2);
-        System.out.println(list2.isEmpty());
+
+        print(list2);
+        System.out.println(list2.contains(7));
 
     }
 

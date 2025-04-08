@@ -4,6 +4,8 @@ package lists;
 import lists.interfaces.MyList;
 import lists.nodes.MyNode;
 
+import java.util.NoSuchElementException;
+
 public class MyLinkedList <T> implements MyList<T> {
     private MyNode<T> head;
     private int size;
@@ -23,6 +25,24 @@ public class MyLinkedList <T> implements MyList<T> {
         }
     }
 
+    private T hasNext(T element) {
+        return element;
+    }
+
+    private void checkCurrent(T element) {
+        if (element == null) {
+            throw new NullPointerException("there is no element");
+        }
+    }
+
+    private void checkEmpty(){
+        if(isEmpty()){
+            throw new NoSuchElementException("list is empty");
+        }
+    }
+
+
+
     @Override
     public void add(T element) {
         MyNode<T> newNode = new MyNode<>(element);
@@ -32,26 +52,53 @@ public class MyLinkedList <T> implements MyList<T> {
         }
         else {
             MyNode<T> current = head;
-            while(current.next != null) {
-                current = current.next;
+            while(current.getNext() != null) {
+                current = current.getNext();
             }
-            current.next = newNode;
+            current.setNext(newNode);
         }
         size++;
     }
 
     @Override
     public void remove(int index) {
-//        checkIndex(index);
-//
-//        MyNode<T> current = head;
-//        if(head == null) {
-//            head = current.next;
-//            return;
-//        }
-//        size--;
+        checkIndex(index);
 
+        if (head == null) {
+            head = head.getNext();
+        } else {
+            MyNode<T> current = head;
+            for (int i = 0; i < index - 1; i++) {
+                current = current.getNext();
+            }
+            current.setNext(current.getNext().getNext());
+        }
+        size--;
     }
+
+    @Override
+    public void removeFirst() {
+        checkEmpty();
+        head = head.getNext();
+        size--;
+    }
+
+    @Override
+    public void removeLast() {
+        checkEmpty();
+
+        if(head.getNext() == null){
+            head = null;
+        }else{
+        MyNode<T> current = head;
+        while(current.getNext() != null) {
+            current = current.getNext();
+            }
+        current.setNext(null);
+        }
+        size--;
+    }
+
 
     @Override
     public int size() {
@@ -65,15 +112,39 @@ public class MyLinkedList <T> implements MyList<T> {
         MyNode<T> current = head;
 
         for(int i = 0; i < index; i++) {
-            current = current.next;
+            checkCurrent(current.getNode());
+            current = current.getNext();
             }
 
-        return current.data;
+        return current.getNode();
+    }
+
+    @Override
+    public T getFirst() {
+        MyNode<T> current = head;
+        if(current == null) {
+            return null;
+        } else {
+            return current.getNode();
+        }
+    }
+
+    @Override
+    public T getLast() {
+        if(head == null) {return null;}
+
+        MyNode<T> current = head;
+        while(current.getNext() != null) {
+            current = current.getNext();
+        }
+
+        return current.getNode();
     }
 
     @Override
     public void clear() {
-
+        head = null;
+        size = 0;
     }
 
     @Override
@@ -81,6 +152,19 @@ public class MyLinkedList <T> implements MyList<T> {
         return size() == 0;
     }
 
+    public boolean contains(T element) {
+        MyNode<T> current = head;
+
+        while(current != hasNext(element)) {
+            if(current.getNode().equals(element)) {
+
+                return true;
+            }
+            current = current.getNext();
+        }
+
+        return false;
+    }
 
 
 
