@@ -1,8 +1,8 @@
-package lists;
+package entity;
 
 
-import lists.interfaces.MyList;
-import lists.nodes.MyNode;
+import entity.interfaces.MyList;
+import entity.nodes.MyNode;
 
 import java.util.Comparator;
 import java.util.Iterator;

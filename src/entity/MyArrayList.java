@@ -1,6 +1,6 @@
-package lists;
+package entity;
 
-import lists.interfaces.MyList;
+import entity.interfaces.MyList;
 
 import java.util.Comparator;
 import java.util.Iterator;

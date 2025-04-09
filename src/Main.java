@@ -1,6 +1,6 @@
-import lists.MyArrayList;
-import lists.MyLinkedList;
-import lists.interfaces.MyList;
+import entity.MyArrayList;
+import entity.MyLinkedList;
+import entity.interfaces.MyList;
 
 public class Main {
     public static void main(String[] args) {

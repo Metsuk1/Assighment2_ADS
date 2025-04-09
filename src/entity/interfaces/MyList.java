@@ -1,4 +1,4 @@
-package lists.interfaces;
+package entity.interfaces;
 
 import java.util.Comparator;
 import java.util.Iterator;

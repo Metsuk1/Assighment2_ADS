@@ -1,4 +1,4 @@
-package lists.nodes;
+package entity.nodes;
 
 public class MyNode <T>{
     private T node;
