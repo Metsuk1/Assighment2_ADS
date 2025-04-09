@@ -19,27 +19,6 @@ public class MyLinkedList <T> implements MyList<T> {
         size = 0;
     }
 
-    /**
-     * Метод нужен для того чтобы словить Exception при работе с индексами
-     * @param index чекаем индекс с которым будем работать
-     */
-    private void checkIndex(int index) {
-        if (index < 0 || index >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
-    }
-
-    private void checkCurrent(T element) {
-        if (element == null) {
-            throw new NullPointerException("there is no element");
-        }
-    }
-
-    private void checkEmpty(){
-        if(isEmpty()){
-            throw new NoSuchElementException("list is empty");
-        }
-    }
 
 
 
@@ -49,35 +28,63 @@ public class MyLinkedList <T> implements MyList<T> {
 
         if(head == null) {
             head = newNode;
+            tail = newNode;
         }
         else {
-            MyNode<T> current = head;
-            while(current.getNext() != null) {
-                current = current.getNext();
-            }
-            current.setNext(newNode);
+            tail.setNext(newNode);
+            tail = newNode;
         }
+
         size++;
     }
 
     @Override
     public void add(int index, T element) {
+        checkIndex(index);
 
+        if(index == 0) {
+            addFirst(element);
+        }
+        else if(index == size - 1) {
+            addLast(element);
+        }
+        else {
+            MyNode<T> newNode = new MyNode<>(element);
+            MyNode<T> current = head;
+
+            for(int i = 0; i < index - 1; i++) {
+                current = current.getNext();
+            }
+            newNode.setNext(current.getNext());
+            current.setNext(newNode);
+
+            size++;
+        }
     }
 
     @Override
     public void set(int index, T element) {
+        checkIndex(index);
+        MyNode<T> current = head;
 
+        for(int i = 0; i < index; i++) {
+            current = current.getNext();
+        }
+
+        current.setNode(element);
     }
 
     @Override
     public void addFirst(T element) {
-
+        MyNode<T> temp = head;
+        head = new MyNode<>(element);
+        head.setNext(temp);
+        size++;
     }
 
     @Override
     public void addLast(T element) {
-
+        add(element);
     }
 
     @Override
@@ -112,17 +119,30 @@ public class MyLinkedList <T> implements MyList<T> {
 
     @Override
     public void sort(Comparator<T> cmp) {
+        MyNode<T> current = head;
+
+        while(current.hasNext()){
+            MyNode<T> next = current.getNext();
+
+            if(cmp.compare(current.getNode(), next.getNode()) > 0) {
+                T temp = current.getNode();
+                current.setNode(next.getNode());
+                next.setNode(temp);
+            }
+
+            current = current.getNext();
+        }
 
     }
 
     @Override
     public int indexOf(Object object) {
-        return 0;
+        return findIndexOfElement(object);
     }
 
     @Override
     public int lastIndexOf(Object object) {
-        return 0;
+        return findLastIndexOfElement(object);
     }
 
     @Override
@@ -224,6 +244,52 @@ public class MyLinkedList <T> implements MyList<T> {
         return false;
     }
 
+    private void checkIndex(int index) {
+        if (index < 0 || index >= size()) {
+            throw new IndexOutOfBoundsException();
+        }
+    }
 
+    private void checkCurrent(T element) {
+        if (element == null) {
+            throw new NullPointerException("there is no element");
+        }
+    }
 
+    private void checkEmpty(){
+        if(isEmpty()){
+            throw new NoSuchElementException("list is empty");
+        }
+    }
+
+    private int  findIndexOfElement(Object element) {
+        int index = 0;
+        MyNode<T> current = head;
+        while(current.hasNext()) {
+            if(current.getNode().equals(element)) {
+
+                return index;
+            }
+            current = current.getNext();
+            index++;
+        }
+
+        return -1;
+    }
+
+    private int  findLastIndexOfElement(Object element){
+        int index = -1;
+        int tmp = 0;
+
+        MyNode<T> current = head;
+        while(current.hasNext()) {
+            if(current.getNode().equals(element)) {
+                tmp = index;
+            }
+            current = current.getNext();
+            tmp++;
+        }
+
+        return index;
+    }
 }
