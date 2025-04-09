@@ -23,7 +23,7 @@ public class Main {
         print(list2);
 
         print(list2);
-        System.out.println(list2.contains(7));
+        System.out.println(list2.exists(7));
 
     }
 

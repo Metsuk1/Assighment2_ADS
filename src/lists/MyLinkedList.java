@@ -4,6 +4,8 @@ package lists;
 import lists.interfaces.MyList;
 import lists.nodes.MyNode;
 
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class MyLinkedList <T> implements MyList<T> {
@@ -109,7 +111,7 @@ public class MyLinkedList <T> implements MyList<T> {
     }
 
     @Override
-    public void sort() {
+    public void sort(Comparator<T> cmp) {
 
     }
 
@@ -189,7 +191,26 @@ public class MyLinkedList <T> implements MyList<T> {
         return size() == 0;
     }
 
-    public boolean contains(T element) {
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+           private MyNode<T> cursor = head;
+
+            @Override
+            public boolean hasNext() {
+                return cursor != null;
+            }
+
+            @Override
+            public T next() {
+                T next = cursor.getNode();
+                cursor = cursor.getNext();
+                return next;
+            }
+        };
+    }
+
+    private boolean contains(T element) {
         MyNode<T> current = head;
 
         while(current.hasNext()) {

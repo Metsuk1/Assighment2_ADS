@@ -2,6 +2,9 @@ package lists;
 
 import lists.interfaces.MyList;
 
+import java.util.Comparator;
+import java.util.Iterator;
+
 public class MyArrayList <T> implements MyList<T> {
     private int length;
     private Object [] elements;
@@ -23,36 +26,34 @@ public class MyArrayList <T> implements MyList<T> {
     @Override
     public void add(int index, T element) {
         checkIndex(index);
-
-        if(index++ == length) {
+        if(++index == length) {
             increaseCapacity();
-
-
         }
-
+        moveRight(index);
+        elements[index] = element;
 
     }
 
     @Override
     public void set(int index, T element) {
-
+        checkIndex(index);
+        elements[index] = element;
     }
 
     @Override
     public void addFirst(T element) {
-
-
+        add(0, element);
     }
 
     @Override
     public void addLast(T element) {
-
+        add(element);
     }
 
     @Override
     public void remove(int index) {
         checkIndex(index);
-        shift(index);
+        moveLeft(index);
         length--;
     }
 
@@ -67,9 +68,24 @@ public class MyArrayList <T> implements MyList<T> {
     }
 
     @Override
-    public void sort() {
-       // sorting();
+    public void sort(Comparator<T> cmp) {
+        if(cmp == null) {
+            throw new NullPointerException();
+        }
+
+        for(int i = 0; i < length - 1; i++) {
+            for(int j = 0; j < length - i - 1; j++) {
+                T current = (T )elements[j];
+                T next = (T )elements[j+1];
+
+                if(cmp.compare(current, next) > 0) {
+                    elements[j] = next;
+                    elements[j+1] = current;
+                }
+            }
+        }
     }
+
 
     @Override
     public int indexOf(Object object) {
@@ -122,15 +138,17 @@ public class MyArrayList <T> implements MyList<T> {
 
     @Override
     public T getFirst() {
+        checkIndex(0);
         return (T)elements[0];
     }
 
     @Override
     public T getLast() {
+        checkIndex(length - 1);
         return (T) elements[length-1];
     }
 
-    public boolean contains(T element) {
+    private boolean contains(T element) {
         if (isEmpty()) {
             return false;
         } else {
@@ -139,9 +157,33 @@ public class MyArrayList <T> implements MyList<T> {
                     return true;
                 }
             }
+
             return false;
         }
     }
+
+    /**
+     * Returns the iterator for using
+     * @return iterator
+     */
+    @Override
+    public Iterator<T> iterator(){
+        return new Iterator<T>() {
+            private int index = 0;
+
+            @Override
+            public boolean hasNext() {
+                return index < length;
+            }
+
+            @Override
+            public T next() {
+                return (T) elements[index++];
+            }
+        };
+
+    }
+
 
     private void increaseCapacity() {
         Object[] tempElements =  new Object[length * 2];
@@ -152,12 +194,19 @@ public class MyArrayList <T> implements MyList<T> {
         elements = tempElements;
     }
 
-    private void shift(int index) {
-        checkIndex(index);
+    private void moveLeft(int index) {
         for (int i = index; i < length - 1; i++) {
             elements[i] = elements[i + 1];
         }
         length--;
+    }
+
+    private void moveRight(int index) {
+        checkIndex(index);
+
+        for(int i = length - 1; i > index; i--) {
+            elements[i + 1] = elements[i];
+        }
     }
 
     private void checkIndex(int index) {
@@ -178,17 +227,14 @@ public class MyArrayList <T> implements MyList<T> {
 
 
     private int findLastIndexOf(Object object) {
-        for(int i = length - 1; i >= 0; i--) {
+        int index = -1;
+        for(int i = 0; i < length; i++) {
             if (elements[i].equals(object)) {
-                return i;
+                index = i;
             }
         }
 
-        return -1;
-    }
-
-    private void sorting(Comparable[] array) {
-
+        return index;
     }
 
 

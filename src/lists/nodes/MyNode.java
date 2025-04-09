@@ -13,6 +13,10 @@ public class MyNode <T>{
         return next != null;
     }
 
+    public boolean hasPrevious(){
+        return previous != null;
+    }
+
     public void setNext(MyNode<T> next) {
         this.next = next;
     }
