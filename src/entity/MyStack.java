@@ -10,6 +10,8 @@ public class MyStack <T> implements IMyStack<T> {
         this.list = list;
     }
 
+
+
     /**
      * Returns whether the stack is empty
      * @return boolean meaning  true or false
@@ -36,6 +38,7 @@ public class MyStack <T> implements IMyStack<T> {
     public T peek() {
         return list.getLast();
     }
+
     /**
      * Pushes the element to the top and returns the just added element
      * @param item  element to add

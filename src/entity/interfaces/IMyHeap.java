@@ -24,13 +24,11 @@ public interface IMyHeap<T> {
      * Returns a reference to the root element of the heap
      * @return max or min
      */
-    T getMax();
     T getMin();
 
     /**
      * Retrieves and deletes the root element of the heap
      * @return max or min element in the heap
      */
-    T extractMax();
     T extractMin();
 }
